@@ -1,234 +1,147 @@
-<div align="center">
+# S.A.R.A. — Sistema de Apoio e Registro de Assédio
 
-# 🌷 SARA
-### Sistema de Apoio e Registro de Assédio
+> **Quebre o silêncio. Sua voz importa.**
 
-**Tecnologia, acolhimento e informação para dar visibilidade a situações de assédio e discriminação no ambiente de trabalho.**
+A **S.A.R.A.** é um projeto de plataforma web voltado ao registro e à visualização de denúncias de assédio e discriminação no ambiente de trabalho. A proposta é incentivar a escuta, a conscientização e a transparência, reunindo relatos e informações em um mesmo espaço digital.
 
-Projeto acadêmico de desenvolvimento web • Python + Flask + SQLite
+**Status:** protótipo acadêmico / em desenvolvimento. O sistema não substitui canais oficiais de denúncia, acolhimento profissional ou orientação jurídica.
 
-</div>
+## 🎯 Objetivo
 
----
+Criar um ambiente digital no qual pessoas possam compartilhar experiências relacionadas a assédio moral, assédio sexual e discriminação salarial no trabalho, além de consultar relatos, interagir com publicações e identificar padrões nas informações registradas.
 
-## 💜 Sobre o projeto
+## ✨ Funcionalidades presentes no código
 
-O **SARA — Sistema de Apoio e Registro de Assédio** é uma aplicação web acadêmica criada para explorar como a tecnologia pode contribuir para a conscientização sobre assédio e discriminação no ambiente profissional.
+- **Cadastro e login:** criação de contas com diferentes tipos de usuário.
+- **Registro de denúncias:** título, descrição, categoria, empresa, área profissional e cidade.
+- **Opção de publicação anônima:** permite solicitar a ocultação do nome em uma publicação.
+- **Consulta de relatos:** listagem de denúncias e visualização de detalhes.
+- **Interações:** comentários e apoio a denúncias, com opção de remover o apoio.
+- **Perfil:** visualização de denúncias relacionadas à conta.
+- **Gerenciamento de relatos próprios:** edição e exclusão.
+- **Filtros:** consulta de denúncias por área profissional e cidade.
+- **Ranking de empresas:** listagem das empresas por quantidade de denúncias cadastradas, limitada às dez primeiras.
+- **Interação de empresas:** lógica para respostas de contas identificadas como empresa nas denúncias associadas ao seu nome.
 
-A plataforma reúne, em um ambiente de demonstração, recursos para registrar relatos, consultar publicações, interagir por comentários e apoios, e visualizar dados agregados. Também contempla a participação de organizações em relatos associados ao seu nome.
+> **Importante:** o ranking apresenta apenas a quantidade de relatos registrados na aplicação. Ele não comprova a ocorrência de irregularidades nem deve ser interpretado como avaliação oficial de empresas. O código também não implementa verificação independente dos relatos.
 
-O projeto busca estimular reflexão, escuta respeitosa e responsabilidade no tratamento de situações delicadas.
-
-> **⚠️ Importante:** o SARA é um **protótipo acadêmico**, não um canal oficial de denúncias nem um serviço de atendimento ou emergência. **Não insira dados pessoais, denúncias reais ou informações sensíveis.** Antes de qualquer uso público, é necessária uma revisão de segurança, privacidade, governança e conformidade com a LGPD.
-
-## 🎯 Objetivos
-
-- Demonstrar uma solução digital para registro e consulta de relatos sobre o ambiente de trabalho.
-- Incentivar a conscientização sobre assédio moral, assédio sexual, discriminação e outras situações relatadas.
-- Explorar formas de participação e interação em uma aplicação web.
-- Exibir informações agregadas para apoiar discussões e estudos.
-- Aplicar conhecimentos de desenvolvimento full stack em um projeto com temática social.
-
-## ✨ Funcionalidades implementadas
-
-| Recurso | O que permite fazer |
-| --- | --- |
-| **Cadastro e login** | Criar uma conta e acessar as funcionalidades de acordo com o tipo de usuário. |
-| **Publicação de relatos** | Informar título, descrição, tipo, empresa, área profissional e cidade. |
-| **Opção de anonimato** | Marcar um relato como anônimo na interface. |
-| **Consulta de relatos** | Visualizar publicações e seus detalhes. |
-| **Filtros** | Consultar relatos por área profissional ou cidade. |
-| **Comentários** | Participar das conversas nos relatos, conforme as regras de acesso implementadas. |
-| **Apoios** | Adicionar ou retirar apoio a um relato; contas de empresa não podem apoiar. |
-| **Área do usuário** | Consultar publicações relacionadas ao perfil. |
-| **Gerenciamento** | Editar ou excluir os próprios relatos. |
-| **Participação de empresas** | Contas do tipo empresa podem comentar relatos relacionados ao nome cadastrado; esses comentários são marcados como fixados. |
-| **Indicadores e ranking** | Exibir contagens por categorias e uma lista de empresas por quantidade de relatos cadastrados. |
-
-**Atenção:** o ranking reflete apenas os registros presentes no banco de dados da aplicação. Não é uma classificação oficial, não verifica a veracidade das publicações e não deve ser usado para julgar empresas ou pessoas.
-
-## 🧭 Como utilizar o site
-
-### 1. Acessar a página inicial
-Com a aplicação executada, abra **http://127.0.0.1:5000/** no navegador. Na página inicial é possível consultar os relatos disponíveis, os indicadores e as opções de navegação.
-
-### 2. Criar uma conta
-1. Acesse a opção de **cadastro**.
-2. Preencha nome, e-mail, login e senha.
-3. Selecione sua área profissional e o tipo de conta disponível no formulário.
-4. Finalize o cadastro para acessar a aplicação.
-
-> Use somente dados fictícios de teste. O cadastro não representa verificação de identidade nem de vínculo empresarial.
-
-### 3. Entrar na plataforma
-1. Acesse **Login**.
-2. Digite o login e a senha cadastrados.
-3. Entre para visualizar os recursos associados à conta.
-
-### 4. Registrar um relato fictício
-1. Entre com uma conta do tipo **comum** ou **vítima**.
-2. Acesse a opção de registro de relato.
-3. Preencha título, descrição e categoria.
-4. Informe, quando pertinente, empresa fictícia, área de trabalho e cidade.
-5. Se desejar, marque a opção de anonimato.
-6. Envie o formulário para registrar a publicação de demonstração.
-
-**Importante:** a opção de anonimato não garante anonimato técnico. O registro continua associado a uma conta no banco de dados, e o protótipo não dispõe das proteções necessárias para uso real.
-
-### 5. Consultar e interagir
-1. Na página inicial, escolha um relato para visualizar seus detalhes.
-2. Utilize os filtros de área profissional ou localização, se desejar.
-3. Com uma conta habilitada, você pode comentar e adicionar ou retirar apoio.
-4. Contas de empresa possuem regras específicas de interação e não podem adicionar apoio.
-
-### 6. Consultar e gerenciar seus relatos
-1. Acesse a área de **Perfil** ou **Minhas denúncias**.
-2. Visualize os relatos vinculados à sua conta.
-3. Utilize as opções disponíveis para editar ou excluir uma publicação de sua autoria.
-
-### 7. Utilizar uma conta de empresa
-1. Crie uma conta com o tipo de usuário **empresa**, conforme o formulário.
-2. Consulte os relatos associados ao nome cadastrado.
-3. Caso a condição de correspondência de nomes seja atendida, utilize o recurso de comentário.
-
-> O protótipo faz a correspondência pelo nome cadastrado, sem autenticar oficialmente a empresa. Não representa um canal verificado de direito de resposta.
-
-## 🛠️ Tecnologias utilizadas
+## 🛠️ Tecnologias
 
 | Camada | Tecnologias |
 | --- | --- |
-| **Back-end** | Python, Flask |
-| **Banco de dados** | SQLite |
-| **ORM** | Flask-SQLAlchemy, SQLAlchemy |
-| **Front-end** | HTML, CSS, JavaScript e templates Jinja |
-| **Testes** | `unittest` (Python) |
-| **Versionamento** | Git e GitHub |
+| Backend | Python, Flask |
+| Persistência | SQLite, Flask-SQLAlchemy |
+| Frontend | HTML5, CSS3, JavaScript |
+| Templates | Jinja2 (via Flask) |
 
-## 📁 Estrutura do projeto
+## 🗂️ Estrutura do repositório
 
 ```text
 SARA-PROGRAMANDO-O-FUTURO/
-├── app.py                 # Aplicação Flask, rotas e modelos
-├── requirements.txt       # Dependências Python
-├── test_app.py            # Testes automatizados
-├── README.md              # Documentação principal
-├── README_EXECUTAR.md     # Guia rápido de execução
-├── templates/             # Páginas HTML renderizadas pelo Flask
-│   ├── index.html
-│   ├── login.html
-│   ├── cadastrar.html
-│   ├── denunciar.html
-│   ├── denuncia.html
-│   ├── editar.html
-│   ├── perfil.html
-│   └── minhas_denuncias.html
-├── static/                # CSS, logo e imagens
-└── instance/              # Banco SQLite local (não versionado)
+├── app.py                # Rotas, modelos e regras do backend
+├── index.html             # Página inicial
+├── login.html             # Login
+├── cadastrar.html         # Cadastro
+├── denunciar.html         # Formulário de denúncia
+├── denuncia.html          # Detalhes e interações
+├── perfil.html            # Perfil de usuário
+├── editar.html            # Edição de denúncia
+├── minhas_denuncias.html  # Listagem de denúncias próprias
+├── *.css                  # Estilos das páginas
+└── README.md              # Documentação do projeto
 ```
 
-## 🚀 Como executar o projeto no computador
+O repositório também contém outros arquivos HTML, como `cadastro.html`, `nova_denuncia.html` e `denunciar.html`, que representam versões ou telas adicionais.
 
-### Pré-requisitos
+## 💻 Como executar localmente
 
-- **Python 3.10 ou superior**;
-- **Git** (para clonar o repositório);
-- Terminal, PowerShell ou terminal integrado do VS Code;
-- Navegador web.
+**Pré-requisitos:** Python 3 e pip.
 
-### 1. Clonar o repositório
+1. Clone o repositório:
 
 ```bash
 git clone https://github.com/Moniquemayumi/SARA-PROGRAMANDO-O-FUTURO.git
 cd SARA-PROGRAMANDO-O-FUTURO
 ```
 
-Alternativamente, baixe o projeto pela opção **Code → Download ZIP** no GitHub e extraia os arquivos.
-
-### 2. Criar um ambiente virtual
-
-No Windows:
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
-
-No macOS ou Linux:
+2. Crie e ative um ambiente virtual:
 
 ```bash
-python3 -m venv .venv
+python -m venv .venv
+```
+
+Windows (PowerShell):
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Linux/macOS:
+```bash
 source .venv/bin/activate
 ```
 
-Se necessário, no Windows, use `py` no lugar de `python`. No Prompt de Comando (CMD), a ativação é `.venv\Scripts\activate.bat`.
-
-### 3. Instalar as dependências
+3. Instale as dependências:
 
 ```bash
-python -m pip install -r requirements.txt
+pip install Flask Flask-SQLAlchemy
 ```
 
-### 4. Iniciar o servidor
+4. **Antes de executar**, organize os arquivos para o padrão esperado pelo Flask: mova os HTML usados por `render_template` para a pasta `templates/`, e os CSS para `static/`. Verifique os caminhos de `url_for('static', ...)` nos HTML, pois há referências a caminhos diferentes.
+
+5. Inicie a aplicação:
 
 ```bash
 python app.py
 ```
 
-### 5. Abrir o site
+6. Acesse **http://127.0.0.1:5000/**.
 
-Acesse **http://127.0.0.1:5000/** no navegador.
+**Nota:** na versão consultada, os HTML e CSS estão na raiz do repositório, embora o backend utilize os diretórios convencionais do Flask. Portanto, o projeto precisa desse ajuste de estrutura para funcionar corretamente; também podem existir links e telas que precisam de integração. O banco SQLite é criado durante a inicialização pelo código da aplicação.
 
-O banco de dados SQLite é criado automaticamente na pasta `instance/` durante a execução. Para encerrar o servidor, pressione **Ctrl + C** no terminal.
+## 🧩 Modelos de dados
 
-> **Observação:** o endereço `127.0.0.1` funciona no computador onde o servidor está em execução. O fato de o código estar no GitHub não significa que exista um site publicado na internet.
+O backend define quatro modelos principais:
 
-## 🧪 Testes automatizados
+- **Usuario:** dados da conta, área profissional e tipo de perfil.
+- **Denuncia:** informações do relato, localidade, anonimato e número de apoios.
+- **Apoio:** associação entre usuário e denúncia apoiada.
+- **Comentario:** mensagens relacionadas às denúncias.
 
-Execute na raiz do projeto:
+## 🔒 Privacidade, segurança e responsabilidade
 
-```bash
-python -m unittest test_app.py -v
-```
+O projeto trata de informações potencialmente sensíveis. **A implementação atual é demonstrativa e não deve receber denúncias reais nem ser disponibilizada publicamente sem revisão de segurança.**
 
-Os testes ajudam a verificar o comportamento das rotas e das operações principais da aplicação. Executar os testes não substitui uma auditoria de segurança.
+Antes de um lançamento real, será necessário:
 
-## 🔐 Segurança, ética e privacidade
+- Armazenar senhas com hash seguro, nunca em texto puro.
+- Implementar autenticação por sessão, eliminando identificadores globais de usuário e de denúncia.
+- Proteger formulários e operações contra CSRF e validar permissões no servidor.
+- Garantir que publicações marcadas como anônimas realmente não revelem a identidade da pessoa nos conteúdos exibidos, logs ou respostas da aplicação.
+- Revisar coleta, retenção, exclusão e acesso a dados pessoais em conformidade com a LGPD.
+- Implementar moderação e mecanismos para contestação de relatos e prevenção de exposição indevida.
+- Desativar o modo `debug=True` fora do desenvolvimento local.
+- Realizar testes funcionais, de segurança, privacidade e acessibilidade.
 
-O tema do projeto envolve informações potencialmente sensíveis. Por isso, os limites da implementação atual precisam ser conhecidos:
+A opção de anonimato existente no código **não constitui garantia de anonimato técnico**.
 
-- As senhas são tratadas sem mecanismo adequado de hash seguro.
-- O controle de usuário logado utiliza estado global da aplicação, não sessões individuais seguras.
-- A aplicação inicia com `debug=True` durante o desenvolvimento.
-- É necessária uma revisão das autorizações, da proteção CSRF e do tratamento de entradas.
-- A opção de relato anônimo não garante anonimato técnico.
-- O armazenamento SQLite pode conter informações de contas e publicações: **não compartilhe o arquivo do banco**.
-- Não há verificação independente da identidade de empresas nem dos relatos.
-- Exibições estatísticas e rankings não representam dados oficiais ou fatos comprovados.
+## 🚀 Próximas melhorias
 
-**Não hospede o protótipo como serviço de denúncias reais sem implementar as medidas necessárias de segurança, privacidade, moderação e conformidade com a legislação aplicável, incluindo a LGPD.**
+- [ ] Reorganizar templates e arquivos estáticos para a estrutura Flask.
+- [ ] Revisar e corrigir rotas e links entre páginas.
+- [ ] Implementar autenticação segura e autorização por usuário.
+- [ ] Revisar a apresentação de denúncias anônimas.
+- [ ] Adicionar validações e mecanismos de moderação.
+- [ ] Melhorar responsividade e acessibilidade da interface.
+- [ ] Criar testes automatizados.
+- [ ] Documentar o processo de implantação.
+- [ ] Desenvolver indicadores confiáveis, respeitando privacidade e contexto dos relatos.
 
-## 🌱 Possibilidades de evolução
+## 💜 Impacto social
 
-- Autenticação com senhas protegidas por hash e sessões seguras;
-- Permissões por usuário e validação de contas empresariais;
-- Controles de privacidade, minimização e retenção de dados;
-- Moderação de conteúdos e mecanismos de denúncia de publicações;
-- Melhorias de acessibilidade e responsividade;
-- Avaliação de segurança, testes adicionais e preparação para implantação;
-- Material educativo e direcionamento para canais institucionais adequados.
-
-## 👩‍💻 Desenvolvimento
-
-Projeto acadêmico disponível no repositório de **[Monique Mayumi](https://github.com/Moniquemayumi)**.
-
-🔗 **Repositório:** https://github.com/Moniquemayumi/SARA-PROGRAMANDO-O-FUTURO
+A S.A.R.A. nasce da ideia de que a tecnologia pode contribuir para ambientes profissionais mais seguros, oferecendo ferramentas de registro, visibilidade e conscientização. Seu propósito é unir desenvolvimento de software e responsabilidade social, sem perder de vista a proteção de quem compartilha experiências.
 
 ---
 
-<div align="center">
+**Repositório:** [Moniquemayumi/SARA-PROGRAMANDO-O-FUTURO](https://github.com/Moniquemayumi/SARA-PROGRAMANDO-O-FUTURO)
 
-### 💜 SARA — Tecnologia a serviço da conscientização
-
-*Ouvir, informar e conscientizar também fazem parte da transformação.*
-
-</div>
+**Aviso:** projeto em desenvolvimento, para fins de aprendizagem e demonstração.
