@@ -126,13 +126,13 @@ A opção de anonimato existente no código **não constitui garantia de anonima
 
 ## 🚀 Próximas melhorias
 
-- [ ] Reorganizar templates e arquivos estáticos para a estrutura Flask.
+- [x] Reorganizar templates e arquivos estáticos para a estrutura Flask.
 - [ ] Revisar e corrigir rotas e links entre páginas.
 - [ ] Implementar autenticação segura e autorização por usuário.
 - [ ] Revisar a apresentação de denúncias anônimas.
 - [ ] Adicionar validações e mecanismos de moderação.
 - [ ] Melhorar responsividade e acessibilidade da interface.
-- [ ] Criar testes automatizados.
+- [x] Criar testes automatizados.
 - [ ] Documentar o processo de implantação.
 - [ ] Desenvolver indicadores confiáveis, respeitando privacidade e contexto dos relatos.
 
