@@ -124,18 +124,6 @@ Antes de um lançamento real, será necessário:
 
 A opção de anonimato existente no código **não constitui garantia de anonimato técnico**.
 
-## 🚀 Próximas melhorias
-
-- [x] Reorganizar templates e arquivos estáticos para a estrutura Flask.
-- [ ] Revisar e corrigir rotas e links entre páginas.
-- [ ] Implementar autenticação segura e autorização por usuário.
-- [ ] Revisar a apresentação de denúncias anônimas.
-- [ ] Adicionar validações e mecanismos de moderação.
-- [ ] Melhorar responsividade e acessibilidade da interface.
-- [x] Criar testes automatizados.
-- [ ] Documentar o processo de implantação.
-- [ ] Desenvolver indicadores confiáveis, respeitando privacidade e contexto dos relatos.
-
 ## 💜 Impacto social
 
 A S.A.R.A. nasce da ideia de que a tecnologia pode contribuir para ambientes profissionais mais seguros, oferecendo ferramentas de registro, visibilidade e conscientização. Seu propósito é unir desenvolvimento de software e responsabilidade social, sem perder de vista a proteção de quem compartilha experiências.
