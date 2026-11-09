@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fffdf7">
+    <title>{{ denuncia.titulo }} — SARA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sara-theme.css') }}">
+</head>
+<body class="detail-page">
+    <header class="home-header detail-header">
+        <div class="home-header-inner">
+            <a href="/" class="home-brand" aria-label="SARA — página inicial">
+                <img src="{{ url_for('static', filename='images/logo-sara.png') }}" alt="SARA">
+            </a>
+            <nav class="home-navigation" aria-label="Navegação principal">
+                <a href="/#ranking">Ranking</a>
+                <a href="/#relatos">Relatos</a>
+                <a href="/#como-funciona">Como funciona</a>
+                <a href="/#orientacao">Orientação</a>
+                <a href="/#sobre">Sobre</a>
+            </nav>
+            <div class="home-header-actions">
+                {% if usuario %}
+                    <a class="detail-profile-link" href="/perfil">Meu perfil</a>
+                    <a class="detail-logout-link" href="/logout">Sair</a>
+                {% else %}
+                    <a class="home-header-cta" href="/login">Entrar</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main class="detail-container">
+        <a href="/#relatos" class="detail-back-link"><span aria-hidden="true">←</span> Voltar aos relatos</a>
+
+        <div class="detail-layout">
+            <article class="detail-report-card">
+                <div class="detail-report-eyebrow">
+                    <span class="home-eyebrow">Feed de transparência</span>
+                    <span class="detail-report-number">Relato #{{ denuncia.id }}</span>
+                </div>
+
+                <div class="detail-meta-tags">
+                    <span class="detail-category detail-category-{{ denuncia.tipo }}">
+                        {% if denuncia.tipo == 'moral' %}Assédio moral
+                        {% elif denuncia.tipo == 'sexual' %}Assédio sexual
+                        {% else %}Discriminação salarial{% endif %}
+                    </span>
+                    {% if denuncia.empresa %}
+                        <span class="detail-meta-item"><span aria-hidden="true">▦</span> {{ denuncia.empresa }}</span>
+                    {% endif %}
+                    {% if denuncia.area_trabalho %}
+                        <span class="detail-meta-item">{{ denuncia.area_trabalho }}</span>
+                    {% endif %}
+                    {% if denuncia.cidade %}
+                        <span class="detail-meta-item">{{ denuncia.cidade }}</span>
+                    {% endif %}
+                </div>
+
+                <h1 class="detail-title">{{ denuncia.titulo }}</h1>
+                <div class="detail-description">{{ denuncia.descricao }}</div>
+
+                <div class="detail-report-footer">
+                    <span class="detail-privacy"><span aria-hidden="true">⌑</span> Relato compartilhado com cuidado</span>
+                    {% if denuncia.anonima %}
+                        <span class="detail-anonymous">Identidade preservada</span>
+                    {% endif %}
+                </div>
+            </article>
+
+            <aside class="detail-support-card">
+                <span class="home-eyebrow">Rede de apoio</span>
+                <div class="detail-support-count">{{ denuncia.apoios or 0 }}</div>
+                <h2>Uma escuta respeitosa faz diferença.</h2>
+                <p>Seu apoio demonstra solidariedade com quem compartilhou este relato.</p>
+
+                {% if usuario %}
+                    {% if usuario.tipo == 'vitima' or usuario.tipo == 'comum' %}
+                        {% if ja_apoiou %}
+                            <a href="/apoio" class="detail-support-button detail-support-button-active">✓ Remover meu apoio</a>
+                        {% else %}
+                            <a href="/apoio" class="detail-support-button">Apoiar este relato <span aria-hidden="true">→</span></a>
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <a href="/login" class="detail-support-button">Entrar para apoiar <span aria-hidden="true">→</span></a>
+                {% endif %}
+                <span class="detail-support-caption">Apoiar não substitui buscar ajuda especializada.</span>
+            </aside>
+        </div>
+
+        <section class="detail-comments" aria-labelledby="detail-comments-title">
+            <div class="detail-comments-heading">
+                <div>
+                    <span class="home-eyebrow">Espaço de acolhimento</span>
+                    <h2 id="detail-comments-title">Comentários</h2>
+                </div>
+                <span class="detail-comment-count">{{ comentarios|length }} comentário(s)</span>
+            </div>
+            <p class="detail-comments-intro">Mantenha o respeito e evite compartilhar dados pessoais ou informações que identifiquem alguém.</p>
+
+            {% if usuario %}
+                {% if usuario.tipo == 'vitima' or usuario.tipo == 'comum' or empresa_da_denuncia %}
+                    <div class="detail-composer">
+                        <form method="POST" action="/comentar">
+                            <label class="detail-composer-label" for="comment-text">Escreva uma mensagem de apoio</label>
+                            <textarea id="comment-text" name="texto" rows="3" class="detail-textarea" placeholder="Compartilhe uma mensagem respeitosa..." required></textarea>
+                            <div class="detail-composer-footer">
+                                {% if usuario.tipo == 'vitima' or usuario.tipo == 'comum' %}
+                                    <label class="detail-anonymous-toggle">
+                                        <input type="checkbox" name="anonimo">
+                                        <span>Comentar anonimamente</span>
+                                    </label>
+                                {% else %}
+                                    <span class="detail-company-note">Seu comentário será identificado como posicionamento da empresa.</span>
+                                {% endif %}
+                                <button type="submit" class="detail-submit-button">Publicar comentário <span aria-hidden="true">→</span></button>
+                            </div>
+                        </form>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="detail-login-note">
+                    <span>Quer deixar uma mensagem de apoio?</span>
+                    <a href="/login">Entre na sua conta para comentar</a>
+                </div>
+            {% endif %}
+
+            <div class="detail-comment-list">
+                {% for c in comentarios %}
+                    <article class="detail-comment {% if c.fixado %}detail-comment-official{% endif %}">
+                        <div class="detail-comment-author">
+                            <span class="detail-comment-avatar">
+                                {% if c.anonimo %}S{% elif c.tipo_usuario == 'empresa' %}{{ denuncia.empresa[:1]|upper }}{% else %}C{% endif %}
+                            </span>
+                            <div>
+                                <strong>
+                                    {% if c.anonimo %}Pessoa anônima
+                                    {% elif c.tipo_usuario == 'empresa' %}{{ denuncia.empresa }}
+                                    {% else %}Pessoa da comunidade{% endif %}
+                                </strong>
+                                {% if c.fixado %}<span class="detail-official-badge">Posicionamento da empresa</span>{% endif %}
+                            </div>
+                        </div>
+                        <p>{{ c.texto }}</p>
+                    </article>
+                {% else %}
+                    <div class="detail-comments-empty">
+                        <span class="detail-empty-mark" aria-hidden="true">♡</span>
+                        <strong>A conversa começa com respeito.</strong>
+                        <span>Ainda não há comentários neste relato.</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer class="home-footer">
+        <div class="home-footer-inner">
+            <a href="/" class="home-brand" aria-label="SARA — página inicial">
+                <img src="{{ url_for('static', filename='images/logo-sara.png') }}" alt="SARA">
+            </a>
+            <nav aria-label="Links do rodapé">
+                <a href="/#ranking">Ranking</a>
+                <a href="/#relatos">Relatos</a>
+                <a href="/#orientacao">Orientação</a>
+                <a href="/#sobre">Sobre</a>
+            </nav>
+            <span>© 2025 SARA. Transparência com respeito.</span>
+        </div>
+    </footer>
+</body>
+</html>

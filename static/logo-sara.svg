@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 32" width="110" height="32" fill="none">
+    <!-- Logotipo Oficial SARA (Figma) -->
+    <!-- Letras em minúsculo: sara com tipografia geométrica arredondada e ponto de destaque âmbar/terracota -->
+    <text x="0" y="24" font-family="'Plus Jakarta Sans', 'Montserrat', -apple-system, sans-serif" font-size="28" font-weight="800" letter-spacing="-1px" fill="currentColor">
+        sara
+    </text>
+    <!-- Ponto característico do logotipo -->
+    <circle cx="68" cy="22" r="3.2" fill="#E68E46" />
+</svg>

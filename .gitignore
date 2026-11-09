@@ -1,0 +1,18 @@
+.venv/
+__pycache__/
+*.py[cod]
+
+# Local database may contain sensitive reports and account data.
+instance/*.db
+instance/*.db-*
+
+# Local environment and editor files.
+.env
+.env.*
+!.env.example
+.vscode/
+
+# Common OS and test artifacts.
+.DS_Store
+Thumbs.db
+.pytest_cache/

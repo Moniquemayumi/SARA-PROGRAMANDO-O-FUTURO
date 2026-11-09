@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil — SARA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sara-theme.css') }}">
+</head>
+<body class="profile-page">
+
+    <!-- CABEÇALHO -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="/" class="brand-link">
+                <img src="{{ url_for('static', filename='images/logo-sara.png') }}" alt="SARA" class="brand-logo-img">
+            </a>
+
+            <nav class="main-navigation">
+                <a href="/" class="nav-item">Página Inicial</a>
+                <a href="/denunciar" class="btn-secondary">+ Nova Denúncia</a>
+                <a href="/logout" class="profile-logout">Sair</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="profile-container">
+
+        <div class="profile-hero-card">
+            <div class="profile-avatar-circle">
+                {{ usuario.nome[:2]|upper }}
+            </div>
+            <div class="profile-info">
+                <h1>{{ usuario.nome }}</h1>
+                <p>E-mail: {{ usuario.email }} • Área de Atuação: {{ usuario.area or 'Não informada' }}</p>
+                <span class="profile-type-badge">
+                    Perfil: {% if usuario.tipo == 'vitima' %}Colaboradora / Vítima{% elif usuario.tipo == 'empresa' %}Empresa / Ouvidoria{% else %}Comum{% endif %}
+                </span>
+            </div>
+        </div>
+
+        <div class="profile-section-heading">
+            <h2>
+                {% if usuario.tipo == 'vitima' or usuario.tipo == 'comum' %}
+                    Suas Denúncias Registradas
+                {% else %}
+                    Relatos Vinculados à Sua Empresa
+                {% endif %}
+            </h2>
+            <span class="profile-count">
+                Total: {{ denuncias|length }}
+            </span>
+        </div>
+
+        <div class="table-wrap">
+            <table class="table-custom">
+                <thead>
+                    <tr>
+                        <th>Título do Relato</th>
+                        <th>Empresa</th>
+                        <th>Tipo</th>
+                        <th>Apoios</th>
+                        {% if usuario.tipo == 'vitima' or usuario.tipo == 'comum' %}
+                        <th class="profile-actions-heading">Ações</th>
+                        {% endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for d in denuncias %}
+                    <tr>
+                        <td>
+                            <strong class="profile-report-title">{{ d.titulo }}</strong>
+                            <p class="profile-report-description">{{ d.descricao[:80] }}{% if d.descricao|length > 80 %}…{% endif %}</p>
+                        </td>
+                        <td>{{ d.empresa }}</td>
+                        <td>
+                            <span class="cat-pill cat-{{ d.tipo }}">
+                                {% if d.tipo == 'moral' %}Moral{% elif d.tipo == 'sexual' %}Sexual{% else %}Salarial{% endif %}
+                            </span>
+                        </td>
+                        <td><strong>{{ d.apoios or 0 }}</strong></td>
+                        {% if usuario.tipo == 'vitima' or usuario.tipo == 'comum' %}
+                        <td class="profile-actions-cell">
+                            <form method="POST" action="/selecionar_editar" class="profile-action-form">
+                                <input type="hidden" name="denuncia_id" value="{{ d.id }}">
+                                <button type="submit" class="btn-action-edit">Editar</button>
+                            </form>
+                            <a href="/deletar?id={{ d.id }}" class="btn-action-del" onclick="return confirm('Deseja realmente remover esta denúncia?');">
+                                Excluir
+                            </a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" class="profile-empty-cell">
+                            Nenhum relato registrado neste perfil até o momento.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="profile-footer-brand">
+                <img src="{{ url_for('static', filename='images/logo-sara.png') }}" alt="SARA" style="height:30px;">
+                <span class="footer-copy">© 2025 SARA — Sistema de Apoio e Registro de Assédio.</span>
+            </div>
+            <div class="profile-footer-links">
+                <a href="/">Início</a>
+                <a href="/#ranking">Ranking</a>
+                <a href="/#denuncias">Denúncias</a>
+                <a href="/#sobre">Sobre Nós</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>

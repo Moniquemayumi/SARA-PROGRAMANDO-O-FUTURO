@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="home-document">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#fffdf7">
+    <title>SARA — Sistema de Apoio e Registro de Assédio | Transparência com respeito</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sara-theme.css') }}">
+</head>
+<body class="home-page">
+    <header class="home-header">
+        <div class="home-header-inner">
+            <a href="/" class="home-brand" aria-label="SARA — página inicial">
+                <img src="{{ url_for('static', filename='images/logo-sara.png') }}" alt="SARA">
+            </a>
+            <nav class="home-navigation" aria-label="Navegação principal">
+                <a href="#ranking">Ranking</a>
+                <a href="#relatos">Relatos</a>
+                <a href="#como-funciona">Como funciona</a>
+                <a href="#orientacao">Orientação</a>
+                <a href="#sobre">Sobre</a>
+            </nav>
+            <div class="home-header-actions">
+                {% if usuario %}
+                    <a class="home-header-cta" href="/perfil">Meu perfil</a>
+                    <a class="home-logout-link" href="/logout">Sair</a>
+                {% else %}
+                    <a class="home-header-cta" href="/denunciar">Fazer uma denúncia</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <main>
+        {% set demo_mode = request.args.get('demo') == '1' %}
+        {% set demo_reports = [
+            {'empresa': 'Empresa fictícia de demonstração 01', 'cidade': 'Localidade fictícia 01', 'tipo': 'moral', 'titulo': 'Cenário fictício: cobranças e comunicação respeitosa', 'descricao': 'Cenário inteiramente fictício: durante algumas semanas, uma pessoa recebe tarefas urgentes no fim do expediente e, nas reuniões, ouve comentários depreciativos sobre sua capacidade. Ela registra os episódios sem incluir nomes ou dados pessoais e pede uma conversa reservada. A liderança combina prioridades por escrito e encontros periódicos para acompanhar a carga de trabalho. O exemplo mostra formas possíveis de descrever contexto, recorrência e busca por apoio; não relata um caso real.', 'apoios': 8},
+            {'empresa': 'Empresa fictícia de demonstração 01', 'cidade': 'Localidade fictícia 01', 'tipo': 'salarial', 'titulo': 'Cenário fictício: critérios de remuneração explicados', 'descricao': 'Cenário inteiramente fictício: duas funções com responsabilidades semelhantes parecem ter faixas salariais diferentes. Sem afirmar que houve uma infração, a pessoa pede os critérios de progressão e registra quais responsabilidades e resultados considera comparáveis. A área responsável revisa descrições de cargo e comunica quais fatores entram na avaliação. O exemplo demonstra como relatar uma dúvida sobre equidade salarial com fatos observáveis e solicitar transparência, sem identificar pessoas; não descreve uma empresa ou situação real.', 'apoios': 5},
+            {'empresa': 'Empresa fictícia de demonstração 01', 'cidade': 'Localidade fictícia 01', 'tipo': 'moral', 'titulo': 'Cenário fictício: participação nas reuniões', 'descricao': 'Cenário inteiramente fictício: em reuniões de equipe, uma profissional é interrompida repetidamente e uma proposta apresentada por ela é atribuída a outra pessoa. Ela anota datas aproximadas, o contexto e o impacto no trabalho, sem registrar nomes na publicação. Depois de pedir que as contribuições sejam reconhecidas e as conversas conduzidas com respeito, a equipe adota uma pauta com responsáveis e registro de decisões. O exemplo ilustra um relato objetivo e caminhos de diálogo; não corresponde a fatos reais.', 'apoios': 3},
+            {'empresa': 'Empresa fictícia de demonstração 02', 'cidade': 'Localidade fictícia 02', 'tipo': 'salarial', 'titulo': 'Cenário fictício: transparência em promoções', 'descricao': 'Cenário inteiramente fictício: uma pessoa se candidata a uma oportunidade interna e recebe apenas uma resposta genérica, enquanto percebe que os requisitos não foram comunicados de forma clara à equipe. Ela guarda a descrição da vaga e solicita os critérios usados, além de orientações para futuras candidaturas. A organização hipotética publica competências esperadas e um canal para dúvidas. O exemplo mostra como descrever uma preocupação com acesso a oportunidades sem concluir antecipadamente que houve discriminação; não representa uma denúncia real.', 'apoios': 6},
+            {'empresa': 'Empresa fictícia de demonstração 02', 'cidade': 'Localidade fictícia 02', 'tipo': 'sexual', 'titulo': 'Cenário fictício: limites pessoais respeitados', 'descricao': 'Cenário inteiramente fictício: um colega faz comentários pessoais indesejados e insiste em convites fora do trabalho depois de ouvir que a pessoa prefere manter a relação profissional. Ela descreve a conduta de forma objetiva, registra que pediu para cessar e procura um canal de confiança para entender as opções de apoio. A situação hipotética é tratada com discrição, sem expor nomes nem detalhes íntimos. O exemplo demonstra como registrar limites e procurar acolhimento; não descreve pessoas ou acontecimentos reais.', 'apoios': 7},
+            {'empresa': 'Empresa fictícia de demonstração 02', 'cidade': 'Localidade fictícia 02', 'tipo': 'salarial', 'titulo': 'Cenário fictício: oportunidades com critérios iguais', 'descricao': 'Cenário inteiramente fictício: ao comparar processos internos, uma colaboradora percebe que os requisitos para funções equivalentes foram apresentados de maneiras diferentes. Ela reúne as informações públicas das vagas, pergunta como as decisões são tomadas e sugere uma matriz de competências acessível a toda a equipe. A área de pessoas revisa o processo e esclarece os critérios. O exemplo ajuda a organizar uma preocupação sobre igualdade de oportunidades sem identificar ninguém ou afirmar uma conclusão sem apuração; não é um caso real.', 'apoios': 4},
+            {'empresa': 'Empresa fictícia de demonstração 03', 'cidade': 'Localidade fictícia 03', 'tipo': 'moral', 'titulo': 'Cenário fictício: acolhimento na integração da equipe', 'descricao': 'Cenário inteiramente fictício: durante a integração, uma nova integrante fica de fora de conversas necessárias para realizar as tarefas e recebe orientações contraditórias de colegas diferentes. Ela anota quais informações faltaram e como isso afetou os prazos, depois pede uma pessoa de referência e instruções centralizadas. A equipe combina um canal único para dúvidas e uma rotina de acompanhamento. O exemplo mostra como registrar fatos e necessidades concretas sem atribuir intenções ou expor pessoas; não se refere a uma organização real.', 'apoios': 9},
+            {'empresa': 'Empresa fictícia de demonstração 03', 'cidade': 'Localidade fictícia 03', 'tipo': 'sexual', 'titulo': 'Cenário fictício: canal de apoio confidencial', 'descricao': 'Cenário inteiramente fictício: após uma conversa de trabalho, uma pessoa recebe mensagens com comentários de teor pessoal que não deseja. Ela comunica com clareza que quer manter contato apenas profissional, guarda os registros para si e procura orientação confidencial sobre como proceder. O canal de apoio explica opções de acolhimento e cuidados com a privacidade, sem pressionar a pessoa a tomar uma decisão. O exemplo demonstra uma forma respeitosa de buscar ajuda; não relata um acontecimento real nem identifica qualquer pessoa.', 'apoios': 2},
+            {'empresa': 'Empresa fictícia de demonstração 04', 'cidade': 'Localidade fictícia 04', 'tipo': 'salarial', 'titulo': 'Cenário fictício: remuneração para funções equivalentes', 'descricao': 'Cenário inteiramente fictício: ao assumir novas responsabilidades, uma profissional não encontra informações sobre como a mudança afeta sua faixa salarial. Ela registra as atribuições anteriores e atuais, pede uma conversa formal e solicita que a resposta explique os critérios aplicáveis. A organização hipotética agenda uma revisão com base na descrição do cargo e apresenta os próximos passos por escrito. O exemplo ilustra uma solicitação de esclarecimento com informações verificáveis, sem afirmar que houve irregularidade; não corresponde a uma empresa ou denúncia real.', 'apoios': 5}
+        ] %}
+        {% set demo_ranking = [
+            ('Empresa fictícia de demonstração 01', 3, 2, 0, 1),
+            ('Empresa fictícia de demonstração 02', 3, 0, 1, 2),
+            ('Empresa fictícia de demonstração 03', 2, 1, 1, 0),
+            ('Empresa fictícia de demonstração 04', 1, 0, 0, 1)
+        ] %}
+        {% if demo_mode %}
+            {% set display_total = demo_reports|length %}
+            {% set display_moral = 3 %}
+            {% set display_sexual = 2 %}
+            {% set display_salarial = 4 %}
+            {% set display_ranking = demo_ranking %}
+            {% set displayed_reports = demo_reports %}
+        {% else %}
+            {% set display_total = total_denuncias %}
+            {% set display_moral = contagem_moral %}
+            {% set display_sexual = contagem_sexual %}
+            {% set display_salarial = contagem_salarial %}
+            {% set display_ranking = ranking %}
+            {% set displayed_reports = denuncias %}
+        {% endif %}
+        <section class="home-hero home-container">
+            <div class="home-hero-copy">
+                <span class="home-eyebrow">Plataforma de transparência</span>
+                <h1>Um lugar seguro para <span>tornar visível.</span></h1>
+                <p>A SARA reúne relatos, informação e apoio para transformar o silêncio em ambientes de trabalho mais responsáveis.</p>
+                <div class="home-hero-actions">
+                    {% if not usuario or usuario.tipo == 'vitima' or usuario.tipo == 'comum' %}
+                        <a href="/denunciar" class="home-button home-button-primary">Fazer uma denúncia</a>
+                    {% endif %}
+                    <a href="#ranking" class="home-button home-button-secondary">Consultar ranking</a>
+                </div>
+                <p class="home-privacy-note"><span aria-hidden="true">⌑</span> Você decide o que compartilhar. Sua identidade é protegida.</p>
+            </div>
+            <div class="home-hero-art">
+                <span class="home-hero-pill"><i aria-hidden="true"></i> Escuta com respeito</span>
+                <h2>Escuta<br>com respeito.</h2>
+                <blockquote>
+                    <strong>“Fui ouvida sem precisar me expor.”</strong>
+                    <span>Relato anônimo na <b>SARA</b></span>
+                </blockquote>
+                <span class="home-hero-status"><i aria-hidden="true"></i> Relatos verificados com cuidado</span>
+            </div>
+        </section>
+
+        <section class="home-stats" aria-label="Indicadores de transparência">
+            <div class="home-stats-inner">
+                <div class="home-stats-intro">
+                    <strong>Transparência que<br>move organizações.</strong>
+                    <span>{{ display_total }} {% if demo_mode %}relatos fictícios{% else %}relatos registrados{% endif %}</span>
+                </div>
+                <div class="home-stat">
+                    <strong>{{ display_moral }}</strong>
+                    <span>relatos de<br>assédio moral</span>
+                </div>
+                <div class="home-stat">
+                    <strong>{{ display_sexual }}</strong>
+                    <span>relatos de<br>assédio sexual</span>
+                </div>
+                <div class="home-stat">
+                    <strong>{{ display_salarial }}</strong>
+                    <span>relatos de<br>discriminação salarial</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="home-main home-container">
+            <section id="ranking" class="home-section home-ranking-section">
+                <div class="home-section-heading">
+                    <div>
+                        <span class="home-eyebrow">Consulta pública</span>
+                        <h2>Ranking de empresas.</h2>
+                    </div>
+                    <div class="home-ranking-heading-note">
+                        <p>Uma leitura responsável dos registros associados a cada empresa na plataforma.</p>
+                        <a class="home-ranking-mode-link" href="{% if demo_mode %}/#ranking{% else %}/?demo=1#ranking{% endif %}">
+                            {% if demo_mode %}Ver ranking com registros reais{% else %}Ativar demonstração com dados fictícios{% endif %}
+                        </a>
+                    </div>
+                </div>
+
+                {% if demo_mode %}
+                    <p class="home-demo-notice"><strong>Modo de apresentação:</strong> os 9 relatos fictícios abaixo estão incluídos nas métricas e no ranking. Eles não são registros reais nem são salvos no banco de dados.</p>
+                {% endif %}
+                <div class="home-ranking-card">
+                    <div class="home-ranking-toolbar">
+                        <div class="home-ranking-tabs" aria-label="Ranking de relatos">
+                            <span class="home-tab-active">{% if demo_mode %}Exemplos fictícios{% else %}Relatos registrados{% endif %}</span>
+                            <span>Contagem por categoria</span>
+                        </div>
+                        <label class="home-ranking-search">
+                            <span class="home-visually-hidden">Buscar empresa</span>
+                            <input type="search" id="company-search" placeholder="Buscar empresa">
+                        </label>
+                    </div>
+                    <div class="home-ranking-summary">
+                        <div><span>Empresas no ranking</span><strong>{{ display_ranking|length }}</strong></div>
+                        <div><span>{% if demo_mode %}Relatos fictícios{% else %}Relatos registrados{% endif %}</span><strong>{{ display_total }}</strong></div>
+                        <div><span>Assédio moral</span><strong>{{ display_moral }}</strong></div>
+                        <div><span>Discriminação salarial</span><strong>{{ display_salarial }}</strong></div>
+                    </div>
+                    <div class="home-ranking-table-wrap">
+                        <table class="home-ranking-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Pos.</th>
+                                    <th scope="col">Empresa</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Moral</th>
+                                    <th scope="col">Sexual</th>
+                                    <th scope="col">Discriminação</th>
+                                </tr>
+                            </thead>
+                            <tbody id="company-ranking">
+                                {% for item in display_ranking %}
+                                    {% if demo_mode %}
+                                        {% set empresa, quantidade, moral, sexual, salarial = item %}
+                                    {% else %}
+                                        {% set empresa, quantidade = item %}
+                                        {% set counts = namespace(moral=0, sexual=0, salarial=0) %}
+                                        {% for report in displayed_reports %}
+                                            {% if report.empresa == empresa %}
+                                                {% if report.tipo == 'moral' %}{% set counts.moral = counts.moral + 1 %}
+                                                {% elif report.tipo == 'sexual' %}{% set counts.sexual = counts.sexual + 1 %}
+                                                {% elif report.tipo == 'salarial' %}{% set counts.salarial = counts.salarial + 1 %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% set moral = counts.moral %}
+                                        {% set sexual = counts.sexual %}
+                                        {% set salarial = counts.salarial %}
+                                    {% endif %}
+                                    <tr data-company="{{ empresa|lower }}">
+                                        <td><span class="home-ranking-position">{{ '%02d'|format(loop.index) }}</span></td>
+                                        <td>
+                                            <span class="home-company-row">
+                                                <span class="home-company-avatar">{{ empresa[:2]|upper }}</span>
+                                                <strong>{{ empresa }}</strong>
+                                            </span>
+                                        </td>
+                                        <td><strong>{{ quantidade }}</strong></td>
+                                        <td><span class="home-category-count">{{ moral }}</span></td>
+                                        <td><span class="home-category-count">{{ sexual }}</span></td>
+                                        <td><span class="home-category-count home-category-discrimination">{{ salarial }}</span></td>
+                                    </tr>
+                                {% else %}
+                                    <tr class="home-ranking-empty">
+                                        <td colspan="6">Ainda não há registros suficientes para compor o ranking.</td>
+                                    </tr>
+                                {% endfor %}
+                                <tr id="company-search-empty" class="home-ranking-empty" hidden>
+                                    <td colspan="6">Nenhuma empresa corresponde à sua busca.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <a href="#relatos" class="home-text-link">Consultar relatos publicados <span aria-hidden="true">→</span></a>
+                </div>
+            </section>
+
+            <section id="relatos" class="home-section home-reports-section">
+                <div class="home-section-heading">
+                    <div>
+                        <span class="home-eyebrow">Feed de transparência</span>
+                        <h2>Registros que<br>acompanham mudanças.</h2>
+                    </div>
+                    <p>Acompanhe publicações e use os filtros para encontrar relatos por categoria ou localização.</p>
+                </div>
+
+                <div class="home-report-layout">
+                    <div class="home-report-list">
+                        {% if demo_mode %}
+                            <p class="home-demo-notice">Demonstração: nomes de empresas, localidades e acontecimentos abaixo são fictícios e não representam organizações, pessoas ou denúncias reais.</p>
+                        {% endif %}
+                        <div class="home-report-filters" role="group" aria-label="Filtrar relatos por categoria">
+                            <button type="button" class="home-filter-chip is-active" data-report-filter="all">Todos os relatos</button>
+                            <button type="button" class="home-filter-chip" data-report-filter="moral">Assédio moral</button>
+                            <button type="button" class="home-filter-chip" data-report-filter="salarial">Discriminação</button>
+                            <button type="button" class="home-filter-chip" data-report-filter="sexual">Assédio sexual</button>
+                        </div>
+
+                        <div class="home-report-cards" id="report-cards">
+                            {% for denuncia in displayed_reports %}
+                                <article class="home-report-card{% if demo_mode %} home-report-card-demo{% endif %}" data-report-type="{{ denuncia.tipo }}">
+                                    <div class="home-report-card-top">
+                                        <span class="home-report-avatar">{{ (denuncia.empresa or 'SARA')[:2]|upper }}</span>
+                                        <div class="home-report-meta">
+                                            <span>{{ denuncia.empresa }}</span>
+                                            {% if denuncia.cidade %}<span>{{ denuncia.cidade }}</span>{% endif %}
+                                        </div>
+                                        <span class="home-report-category">
+                                            {% if denuncia.tipo == 'moral' %}Assédio moral
+                                            {% elif denuncia.tipo == 'sexual' %}Assédio sexual
+                                            {% else %}Discriminação salarial{% endif %}
+                                        </span>
+                                    </div>
+                                    {% if demo_mode %}
+                                        <span class="home-demo-label">Exemplo fictício</span>
+                                    {% endif %}
+                                    <h3>{{ denuncia.titulo }}</h3>
+                                    <p>{{ denuncia.descricao[:180] }}{% if denuncia.descricao|length > 180 %}…{% endif %}</p>
+                                    {% if demo_mode %}
+                                        <details class="home-demo-details">
+                                            <summary>Ver detalhes do cenário fictício</summary>
+                                            <p>{{ denuncia.descricao }}</p>
+                                        </details>
+                                    {% endif %}
+                                    <div class="home-report-card-bottom">
+                                        <span class="home-report-support"><i aria-hidden="true"></i>{{ denuncia.apoios or 0 }} apoios</span>
+                                        {% if demo_mode %}
+                                            <span class="home-demo-label">Demonstração visual</span>
+                                        {% else %}
+                                            <form method="POST" action="/selecionar_denuncia">
+                                                <input type="hidden" name="denuncia_id" value="{{ denuncia.id }}">
+                                                <button type="submit" class="home-text-link">Ver registro <span aria-hidden="true">→</span></button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </article>
+                            {% else %}
+                                <div class="home-empty-state">
+                                    <h3>Nenhum relato encontrado nesta seleção.</h3>
+                                    <p>Você pode consultar outra categoria ou compartilhar um relato.</p>
+                                    {% if not usuario or usuario.tipo == 'vitima' or usuario.tipo == 'comum' %}
+                                        <a href="/denunciar" class="home-button home-button-primary">Fazer uma denúncia</a>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <p id="report-filter-empty" class="home-filter-empty" hidden>Nenhum relato nesta categoria.</p>
+                    </div>
+
+                    <aside class="home-report-aside">
+                        <div class="home-company-card">
+                            <span class="home-eyebrow">Consulta por empresa</span>
+                            <h3>Encontre os registros relacionados.</h3>
+                            <a href="#ranking" class="home-aside-action">Ver ranking completo</a>
+                            <ul>
+                                {% for item in display_ranking[:5] %}
+                                    {% if demo_mode %}
+                                        {% set empresa = item[0] %}
+                                    {% else %}
+                                        {% set empresa, quantidade = item %}
+                                    {% endif %}
+                                    <li><span>{{ empresa[:2]|upper }}</span>{{ empresa }}</li>
+                                {% else %}
+                                    <li class="home-aside-empty">O ranking será exibido quando houver registros.</li>
+                                {% endfor %}
+                            </ul>
+                            <a href="#ranking" class="home-text-link">Voltar ao ranking <span aria-hidden="true">↑</span></a>
+                        </div>
+                        <form class="home-city-search" method="GET" action="/filtrar_localizacao">
+                            <label for="home-city">Buscar relatos por cidade</label>
+                            <div>
+                                <input id="home-city" type="text" name="cidade" value="{{ filtro_cidade }}" placeholder="Ex.: Recife">
+                                <button type="submit" aria-label="Buscar cidade">→</button>
+                            </div>
+                            {% if filtro_cidade %}<a href="/">Limpar filtro</a>{% endif %}
+                        </form>
+                        {% if areas %}
+                            <details class="home-area-filter">
+                                <summary>Filtrar por área de trabalho</summary>
+                                <div>
+                                    <a href="/">Todas as áreas</a>
+                                    {% for area in areas %}
+                                        <a href="/area/{{ area }}">{{ area }}</a>
+                                    {% endfor %}
+                                </div>
+                            </details>
+                        {% endif %}
+                    </aside>
+                </div>
+
+                <p class="home-feed-note">
+                    {% if demo_mode %}
+                        Modo demonstração: estes relatos são fictícios e não são salvos no sistema.
+                        <a href="/#relatos">Voltar aos registros reais</a>
+                    {% else %}
+                        As publicações são apresentadas com as informações compartilhadas por quem registrou o relato.
+                        <a href="/?demo=1#ranking">Ver exemplos fictícios no ranking e nos relatos</a>
+                    {% endif %}
+                </p>
+            </section>
+        </div>
+
+        <section id="como-funciona" class="home-how-section">
+            <svg class="home-how-wave home-how-wave-top" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <path d="M0 56C110-8 220-15 360 6c160 24 250 84 440 93 230 13 470-34 640-64V0H0Z"></path>
+            </svg>
+            <div class="home-how-inner">
+                <div class="home-how-intro">
+                    <span class="home-eyebrow">Como funciona</span>
+                    <h2>Seu relato tem um caminho claro.</h2>
+                    <p>Sem exposição desnecessária, com informações para que você possa tomar decisões com mais segurança.</p>
+                    <a class="home-button home-how-button" href="/denunciar">Começar relato <span aria-hidden="true">→</span></a>
+                </div>
+                <ol class="home-how-steps">
+                    <li>
+                        <span class="home-how-number" aria-hidden="true">01</span>
+                        <div>
+                            <h3>Compartilhe no seu ritmo</h3>
+                            <p>Conte o que aconteceu e inclua apenas as informações que considerar seguras.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="home-how-number" aria-hidden="true">02</span>
+                        <div>
+                            <h3>Receba uma revisão cuidadosa</h3>
+                            <p>O conteúdo passa por uma checagem que protege identidades e contextualiza o relato.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="home-how-number" aria-hidden="true">03</span>
+                        <div>
+                            <h3>Ajude a tornar o cenário visível</h3>
+                            <p>Dados organizados fortalecem conversas, prevenção e responsabilidade corporativa.</p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            <svg class="home-how-wave home-how-wave-bottom" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+                <path d="M0 84c180-64 350-62 520-30 180 33 290 64 490 46 170-16 300-47 430-44v64H0Z"></path>
+            </svg>
+        </section>
+
+        <section id="orientacao" class="home-guidance home-container">
+            <img src="{{ url_for('static', filename='images/figma_nomear_card.png') }}" alt="Informação e proteção: nomear também é enfrentar.">
+            <div class="home-guidance-copy">
+                <span class="home-eyebrow">Informação e proteção</span>
+                <h2>Violência no trabalho não deve ser normalizada.</h2>
+                <p>Conhecer os sinais ajuda a entender seus direitos, registrar situações e procurar a rede de apoio adequada.</p>
+                <div class="home-guidance-list">
+                    <details>
+                        <summary>Assédio moral <span aria-hidden="true">+</span></summary>
+                        <p>Condutas repetidas de humilhação, constrangimento ou isolamento podem prejudicar a dignidade no trabalho.</p>
+                    </details>
+                    <details>
+                        <summary>Assédio sexual <span aria-hidden="true">+</span></summary>
+                        <p>Comportamentos de natureza sexual indesejados podem ser relatados e merecem atenção e acolhimento.</p>
+                    </details>
+                    <details>
+                        <summary>Discriminação de gênero <span aria-hidden="true">+</span></summary>
+                        <p>Tratamentos desiguais relacionados a gênero não devem ser naturalizados no ambiente profissional.</p>
+                    </details>
+                </div>
+                <div class="home-support-note">
+                    <strong>Você não precisa passar por isso sozinha.</strong>
+                    <span>Se estiver em risco, procure serviços públicos de apoio ou alguém de confiança.</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="sobre" class="home-about">
+            <img src="{{ url_for('static', filename='images/figma_bottom_banner.png') }}" alt="Sobre a SARA: visibilidade é parte da mudança. Uma plataforma independente de apoio e registro de assédio no ambiente de trabalho.">
+            <div class="home-about-content">
+                {% if usuario %}
+                    <a href="/perfil" class="home-image-cta home-about-cta" aria-label="Acessar meu perfil"></a>
+                {% else %}
+                    <a href="/cadastrar" class="home-image-cta home-about-cta" aria-label="Falar com a SARA"></a>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <footer class="home-footer">
+        <div class="home-footer-inner">
+            <a href="/" class="home-brand" aria-label="SARA — página inicial">
+                <img src="{{ url_for('static', filename='images/logo-sara.png') }}" alt="SARA">
+            </a>
+            <nav aria-label="Links do rodapé">
+                <a href="#ranking">Ranking</a>
+                <a href="#relatos">Relatos</a>
+                <a href="#orientacao">Orientação</a>
+                <a href="#sobre">Sobre</a>
+            </nav>
+            <span>© 2025 SARA. Transparência com respeito.</span>
+        </div>
+    </footer>
+
+    <script>
+        const companySearch = document.getElementById('company-search');
+        const companyRows = Array.from(document.querySelectorAll('#company-ranking tr[data-company]'));
+        const companySearchEmpty = document.getElementById('company-search-empty');
+
+        companySearch.addEventListener('input', () => {
+            const query = companySearch.value.trim().toLocaleLowerCase('pt-BR');
+            let visibleRows = 0;
+            companyRows.forEach((row) => {
+                const matches = row.dataset.company.includes(query);
+                row.hidden = !matches;
+                if (matches) visibleRows += 1;
+            });
+            companySearchEmpty.hidden = visibleRows > 0 || query.length === 0;
+        });
+
+        const reportFilters = Array.from(document.querySelectorAll('[data-report-filter]'));
+        const reportCards = Array.from(document.querySelectorAll('.home-report-card'));
+        const reportFilterEmpty = document.getElementById('report-filter-empty');
+
+        reportFilters.forEach((button) => {
+            button.addEventListener('click', () => {
+                const selectedType = button.dataset.reportFilter;
+                let visibleCards = 0;
+                reportFilters.forEach((filter) => filter.classList.toggle('is-active', filter === button));
+                reportCards.forEach((card) => {
+                    const matches = selectedType === 'all' || card.dataset.reportType === selectedType;
+                    card.hidden = !matches;
+                    if (matches) visibleCards += 1;
+                });
+                reportFilterEmpty.hidden = visibleCards > 0 || reportCards.length === 0;
+            });
+        });
+    </script>
+</body>
+</html>

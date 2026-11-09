@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Denúncia — SARA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sara-theme.css') }}">
+    <style>
+        .form-page-container {
+            max-width: 800px;
+            margin: 40px auto 60px auto;
+            padding: 0 20px;
+        }
+
+        .form-card {
+            background: var(--sara-surface);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--sara-border);
+            box-shadow: var(--shadow-md);
+            padding: 40px;
+        }
+
+        .form-hero-header {
+            margin-bottom: 28px;
+            border-bottom: 1px solid var(--sara-border);
+            padding-bottom: 20px;
+        }
+
+        .form-hero-header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--sara-purple);
+            letter-spacing: -0.5px;
+        }
+
+        .form-hero-header p {
+            font-size: 14px;
+            color: var(--sara-text-muted);
+            margin-top: 6px;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--sara-text-dark);
+            margin-bottom: 6px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid var(--sara-border-strong);
+            font-size: 14px;
+            background: #faf7f9;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            background: #ffffff;
+            border-color: var(--sara-purple);
+            box-shadow: 0 0 0 3px rgba(92, 6, 60, 0.1);
+        }
+
+        .checkbox-custom {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 18px;
+            background: #faf7f9;
+            border: 1px solid var(--sara-border-strong);
+            border-radius: 12px;
+            cursor: pointer;
+            margin-bottom: 28px;
+        }
+
+        .checkbox-custom input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--sara-purple);
+        }
+
+        .checkbox-custom span {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--sara-purple);
+        }
+
+        .form-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="site-header">
+        <div class="header-container">
+            <a href="/" class="brand-link">
+                <img src="{{ url_for('static', filename='images/logo-sara.png') }}" alt="SARA" class="brand-logo-img">
+            </a>
+
+            <nav class="main-navigation">
+                <a href="/" class="nav-item">Página Inicial</a>
+                <a href="/perfil" class="btn-outline">Meu Perfil</a>
+                <a href="/logout" style="font-size: 13px; font-weight: 700; color: var(--sara-danger);">Sair</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="form-page-container">
+        <div class="form-card">
+            <div class="form-hero-header">
+                <h1>Editar Denúncia</h1>
+                <p>Atualize as informações do seu relato registrado</p>
+            </div>
+
+            <form method="POST" action="/editar">
+                <div class="form-group">
+                    <label class="form-label" for="titulo">Título da denúncia:</label>
+                    <input type="text" id="titulo" name="titulo" class="form-input" value="{{ denuncia.titulo }}" required>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="tipo">Tipo de assédio:</label>
+                        <select id="tipo" name="tipo" class="form-select" required>
+                            <option value="moral" {% if denuncia.tipo == 'moral' %}selected{% endif %}>Assédio Moral</option>
+                            <option value="sexual" {% if denuncia.tipo == 'sexual' %}selected{% endif %}>Assédio Sexual</option>
+                            <option value="salarial" {% if denuncia.tipo == 'salarial' %}selected{% endif %}>Diferença Salarial</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="empresa">Empresa denunciada:</label>
+                        <input type="text" id="empresa" name="empresa" class="form-input" value="{{ denuncia.empresa }}" required>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <div class="form-group">
+                        <label class="form-label" for="area_trabalho">Área de atuação:</label>
+                        <input type="text" id="area_trabalho" name="area_trabalho" class="form-input" value="{{ denuncia.area_trabalho or '' }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="cidade">Cidade / Estado:</label>
+                        <input type="text" id="cidade" name="cidade" class="form-input" value="{{ denuncia.cidade or '' }}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="descricao">Descrição dos acontecimentos:</label>
+                    <textarea id="descricao" name="descricao" rows="6" class="form-textarea" required>{{ denuncia.descricao }}</textarea>
+                </div>
+
+                <label class="checkbox-custom">
+                    <input type="checkbox" name="anonima" id="anonima" {% if denuncia.anonima %}checked{% endif %}>
+                    <span>Manter publicação como denúncia anônima</span>
+                </label>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" style="padding:14px 32px; font-size:15px;">
+                        Salvar Alterações
+                    </button>
+                    <a href="/perfil" class="btn-outline">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container" style="justify-content: center;">
+            <span class="footer-copy">© 2025 SARA — Todos os relatos são acolhidos com proteção e respeito.</span>
+        </div>
+    </footer>
+
+</body>
+</html>

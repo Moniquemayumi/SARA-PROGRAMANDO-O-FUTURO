@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar — SARA</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        :root {
+            --sara-plum: #740753;
+            --sara-plum-dark: #55003b;
+            --sara-amber: #e58d43;
+            --sara-amber-light: #fef0e4;
+            --sara-peach-card: linear-gradient(135deg, #d3b4d4 0%, #f4d0bb 50%, #ebb288 100%);
+            --sara-wave-banner: linear-gradient(90deg, #740753 0%, #b85244 55%, #df8d51 100%);
+            --sara-text-dark: #1b191b;
+            --sara-text-muted: #6b676b;
+            --sara-border: #eedfe6;
+            --radius-pill: 9999px;
+            --radius-card: 20px;
+        }
+
+        body {
+            background-color: #faf9f6;
+            color: var(--sara-text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER FIGMA OFICIAL */
+        .site-header {
+            background: #ffffff;
+            border-bottom: 1px solid var(--sara-border);
+            padding: 14px 40px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .brand-logo img {
+            height: 34px;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+        }
+
+        .header-nav a {
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--sara-text-dark);
+            transition: color 0.2s;
+        }
+
+        .header-nav a:hover {
+            color: var(--sara-plum);
+        }
+
+        .btn-header-cta {
+            background-color: var(--sara-plum) !important;
+            color: #ffffff !important;
+            padding: 9px 22px;
+            border-radius: var(--radius-pill);
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 14px rgba(116, 7, 83, 0.25);
+        }
+
+        /* BANNER DE IDENTIDADE FIGMA */
+        .page-ribbon {
+            background: var(--sara-plum);
+            color: #ffffff;
+            padding: 16px 24px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .page-ribbon span.pill-tag {
+            background: rgba(255, 255, 255, 0.18);
+            padding: 3px 12px;
+            border-radius: var(--radius-pill);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* CONTEÚDO PRINCIPAL EM GRID DE DUAS COLUNAS */
+        .main-auth {
+            max-width: 1040px;
+            margin: 36px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 28px;
+            align-items: stretch;
+            flex-grow: 1;
+        }
+
+        /* CARD DESTAQUE PEACH/GRADIENTE FIGMA */
+        .showcase-card {
+            background: var(--sara-peach-card);
+            border-radius: var(--radius-card);
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 12px 30px rgba(116, 7, 83, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .showcase-pill {
+            background: rgba(255, 255, 255, 0.85);
+            color: var(--sara-plum);
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            align-self: flex-start;
+        }
+
+        .showcase-pill::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--sara-plum);
+        }
+
+        .showcase-card h2 {
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--sara-plum);
+            line-height: 1.15;
+            margin: 20px 0 12px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .showcase-card p {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #4a223a;
+        }
+
+        .quote-box {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin-top: 24px;
+            border-left: 4px solid var(--sara-plum);
+        }
+
+        .quote-box p {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--sara-plum);
+            line-height: 1.4;
+        }
+
+        .quote-box span {
+            display: block;
+            font-size: 11px;
+            color: var(--sara-text-muted);
+            margin-top: 6px;
+        }
+
+        /* CARD DE FORMULÁRIO COMPACTO & ELEGANTE */
+        .form-card {
+            background: #ffffff;
+            border-radius: var(--radius-card);
+            border: 1px solid var(--sara-border);
+            padding: 36px 32px;
+            box-shadow: 0 8px 24px rgba(116, 7, 83, 0.06);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .form-header {
+            margin-bottom: 24px;
+        }
+
+        .form-eyebrow {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--sara-amber);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .form-header h1 {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--sara-plum);
+            letter-spacing: -0.5px;
+        }
+
+        .form-header p {
+            font-size: 13px;
+            color: var(--sara-text-muted);
+            margin-top: 4px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--sara-text-dark);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 11px 16px;
+            border-radius: 12px;
+            border: 1.5px solid var(--sara-border);
+            font-size: 14px;
+            background: #fdfbfd;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .form-input:focus {
+            background: #ffffff;
+            border-color: var(--sara-plum);
+            box-shadow: 0 0 0 3px rgba(116, 7, 83, 0.08);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: var(--sara-plum);
+            color: #ffffff;
+            border: none;
+            border-radius: var(--radius-pill);
+            padding: 13px 24px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(116, 7, 83, 0.25);
+        }
+
+        .btn-submit:hover {
+            background: var(--sara-plum-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(116, 7, 83, 0.35);
+        }
+
+        .form-footer-note {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid var(--sara-border);
+            text-align: center;
+            font-size: 13px;
+            color: var(--sara-text-muted);
+        }
+
+        .form-footer-note a {
+            color: var(--sara-plum);
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .form-footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        /* FOOTER FIGMA */
+        .site-footer {
+            background: #ffffff;
+            border-top: 1px solid var(--sara-border);
+            padding: 24px 40px;
+            font-size: 12px;
+            color: var(--sara-text-muted);
+            margin-top: auto;
+        }
+
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 18px;
+        }
+
+        .footer-links a {
+            color: var(--sara-text-muted);
+            text-decoration: none;
+        }
+        .footer-links a:hover {
+            color: var(--sara-plum);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header class="site-header">
+        <div class="header-inner">
+            <a href="/" class="brand-logo">
+                <img src="{{ url_for('static', filename='images/logo-sara.png') }}" alt="SARA">
+            </a>
+
+            <nav class="header-nav">
+                <a href="/">Ranking</a>
+                <a href="/">Relatos</a>
+                <a href="/">Como funciona</a>
+                <a href="/cadastrar" class="btn-header-cta">Cadastrar-se</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- FAIXA SUPERIOR DE IDENTIDADE FIGMA -->
+    <div class="page-ribbon">
+        <span class="pill-tag">Acesso Protegido</span>
+        <span>Acolhimento com sigilo absoluto e moderação ativa.</span>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="main-auth">
+        <!-- CARD WIDGET PEACH FIGMA (ESCUTA COM RESPEITO) -->
+        <div class="showcase-card">
+            <div>
+                <span class="showcase-pill">Canal Protegido & Sigiloso</span>
+                <h2>Escuta com respeito.</h2>
+                <p>Sua identidade pode ser preservada em cada publicação. Compartilhe sua experiência de maneira segura e fortaleça a rede de apoio.</p>
+
+                <div class="quote-box">
+                    <p>"Fui ouvida sem precisar me expor publicamente."</p>
+                    <span>Relato anônimo validado na plataforma SARA</span>
+                </div>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; color:var(--sara-plum); margin-top:24px;">
+                <span style="display:inline-block; width:8px; height:8px; border-radius:50%; background:#10b981;"></span>
+                100% dos relatos passam por triagem e moderação
+            </div>
+        </div>
+
+        <!-- FORMULÁRIO DE LOGIN -->
+        <div class="form-card">
+            <div class="form-header">
+                <span class="form-eyebrow">Autenticação Segura</span>
+                <h1>Acesse sua conta</h1>
+                <p>Entre para registrar denúncias, comentar e acompanhar apoios.</p>
+            </div>
+
+            {% if erro %}
+            <div style="background:#fee2e2; border-left:4px solid #b91c1c; padding:12px 16px; border-radius:8px; margin-bottom:18px; color:#b91c1c; font-size:13px; font-weight:700;">
+                ⚠️ {{ erro }}
+            </div>
+            {% endif %}
+
+            <form method="POST" action="/login">
+                <div class="form-group">
+                    <label class="form-label" for="login">Login de usuário</label>
+                    <input type="text" id="login" name="login" class="form-input" placeholder="Seu nome de usuário ou login" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="senha">Sua senha</label>
+                    <input type="password" id="senha" name="senha" class="form-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Entrar no Sistema →
+                </button>
+            </form>
+
+            <div class="form-footer-note">
+                <p>Ainda não tem conta? <a href="/cadastrar">Cadastre-se gratuitamente</a></p>
+                <p style="margin-top: 8px;"><a href="/" style="color: var(--sara-text-muted); font-weight: normal; font-size: 12px;">← Voltar para a página inicial</a></p>
+            </div>
+        </div>
+    </main>
+
+    <!-- RODAPÉ FIGMA -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div style="display:flex; align-items:center; gap:12px;">
+                <img src="{{ url_for('static', filename='images/logo-sara.png') }}" alt="SARA" style="height:22px;">
+                <span>© 2025 SARA. Transparência com respeito.</span>
+            </div>
+            <div class="footer-links">
+                <a href="/">Ranking</a>
+                <a href="/">Relatos</a>
+                <a href="/">Orientação</a>
+                <a href="/">Sobre</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
