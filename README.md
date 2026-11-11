@@ -30,7 +30,7 @@ Criar um ambiente digital no qual pessoas possam compartilhar experiências rela
 | Camada | Tecnologias |
 | --- | --- |
 | Backend | Python, Flask |
-| Persistência | SQLite, Flask-SQLAlchemy |
+| Persistência | SQLite local ou PostgreSQL, Flask-SQLAlchemy |
 | Frontend | HTML5, CSS3, JavaScript |
 | Templates | Jinja2 (via Flask) |
 
@@ -97,6 +97,10 @@ python app.py
 6. Acesse **http://127.0.0.1:5000/**.
 
 **Nota:** na versão consultada, os HTML e CSS estão na raiz do repositório, embora o backend utilize os diretórios convencionais do Flask. Portanto, o projeto precisa desse ajuste de estrutura para funcionar corretamente; também podem existir links e telas que precisam de integração. O banco SQLite é criado durante a inicialização pelo código da aplicação.
+
+## 🚀 Render com PostgreSQL
+
+Crie um banco PostgreSQL no Render e configure a variável `DATABASE_URL` do serviço web com a URL interna desse banco. Use `gunicorn app:app` como comando de inicialização. A aplicação cria tabelas ausentes ao iniciar; para alterações futuras no esquema, use migrações. Os dados do SQLite local não são copiados automaticamente para o PostgreSQL.
 
 ## 🧩 Modelos de dados
 

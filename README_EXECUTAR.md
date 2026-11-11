@@ -18,7 +18,9 @@ python app.py
 
 Abra http://127.0.0.1:5000/ no navegador. Para encerrar o servidor, pressione `Ctrl+C` no terminal.
 
-O banco SQLite é criado em `instance/denuncias.db` e permanece apenas no computador local. Não compartilhe esse arquivo: ele pode conter dados pessoais.
+Sem configurar `DATABASE_URL`, o banco SQLite é criado em `instance/denuncias.db` e permanece apenas no computador local. Não compartilhe esse arquivo: ele pode conter dados pessoais.
+
+Para hospedar no Render com PostgreSQL, configure `DATABASE_URL` nas variáveis do serviço web com a URL interna do banco e use `gunicorn app:app` como comando de inicialização. A aplicação cria tabelas ausentes ao iniciar, mas não migra automaticamente os dados do SQLite local.
 
 Para executar os testes:
 
