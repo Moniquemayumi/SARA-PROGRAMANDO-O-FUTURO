@@ -1,8 +1,18 @@
+import os
+
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///denuncias.db'
+database_url = os.environ.get('DATABASE_URL')
+if database_url is None:
+    database_url = 'sqlite:///denuncias.db'
+elif database_url.startswith('postgres://'):
+    database_url = 'postgresql+psycopg://' + database_url[len('postgres://'):]
+elif database_url.startswith('postgresql://'):
+    database_url = 'postgresql+psycopg://' + database_url[len('postgresql://'):]
+
+app.config['SQLALCHEMY_DATABASE_URI'] = database_url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -419,8 +429,8 @@ def filtrar_localizacao():
     )
 
 
-if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-    app.run(debug=True)
+with app.app_context():
+    db.create_all()
 
+if __name__ == '__main__':
+    app.run(debug=True)
